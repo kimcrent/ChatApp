@@ -54,7 +54,21 @@ public class ChatClientGUI extends JFrame {
 
         // Initialize the exit button
         exitButton = new JButton("Exit");
-        exitButton.addActionListener(e -> System.exit(0));
+        exitButton.addActionListener(e -> {
+            // Send a departure message to the server
+            String departureMessage = name + " has left the chat.";
+            client.sendMessage(departureMessage);
+
+            // Delay to ensure the message is sent before exiting
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ie){
+                Thread.currentThread().interrupt();
+            
+            }
+            // Exit the application
+            System.exit(0);
+        });
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.add(textField, BorderLayout.CENTER);
         bottomPanel.add(exitButton, BorderLayout.EAST);
