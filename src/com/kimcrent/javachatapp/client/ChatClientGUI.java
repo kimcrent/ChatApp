@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 
+
 public class ChatClientGUI extends JFrame {
     private JTextArea messageArea;
     private JTextField textField;
