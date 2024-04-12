@@ -17,11 +17,42 @@ public class ChatServer{
             // Spawn a new thread for each client
             ClientHandler clientThread = new ClientHandler(clientSocket, clients);
             clients.add(clientThread);
-            new Thread(ckientTread).start();
+            new Thread(clientThread).start();
         }
     }
 }
 
-class clientHandler implements Runnable{
-    
+class ClientHandler implements Runnable {
+    private Socket clientSocket;
+    private List<ClientHandler> clients;
+    private PrintWriter out;
+    private BufferedReader in;
+
+    public ClientHandler(Socket socket, List<ClientHandler> clients) throws IOException {
+        this.clientSocket = socket;
+        this.clients = clients;
+        this.out = new PrintWriter(clientSocket.getOutputStream(), true);
+        this.in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+    }
+    public void run() {
+        try {
+            String inputLine;
+            while((inputLine = in.readLine()) != null) {
+                // Broadcast message ti all clients
+                for(ClientHandler aClient : clients) {
+                    aClient.out.println(inputLine);
+                }
+            }
+        } catch(IOException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        } finally {
+            try {
+                in.close();
+                out.close();
+                clientSocket.close();
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
