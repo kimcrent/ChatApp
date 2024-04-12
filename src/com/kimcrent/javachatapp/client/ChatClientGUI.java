@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ChatClientGUI extends JFrame {
     private JTextArea messageArea;
@@ -36,6 +38,19 @@ public class ChatClientGUI extends JFrame {
                     JOptionPane.ERROR_MESSAGE);
             System.exit(1);
         }
+
+        // Prompt for username 
+        String name = JOptionPane.showInputDialog(this, "Enter your name: ", "Name Entry", JOptionPane.PLAIN_MESSAGE);
+        this.setTitle("Chat Application - " + name);
+
+        // Modify actionPerformed to include the username and time stamp
+        textField.addActionListener(e -> {
+            String message = "[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] " + name + ": " + textField.getText();
+            client.sendMessage(message);
+            textField.setText("");
+        });
+
+        //Initilize and start the ChatClient with modifications for user name 
     }
   
     private void onMessageReceived(String message) {
