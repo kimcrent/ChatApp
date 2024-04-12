@@ -5,10 +5,12 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
 public class ChatClientGUI extends JFrame {
     private JTextArea messageArea;
     private JTextField textField;
     private ChatClient client;
+    private JButton exitButton;
   
     public ChatClientGUI() {
         super("Chat Application");
@@ -50,7 +52,13 @@ public class ChatClientGUI extends JFrame {
             textField.setText("");
         });
 
-        //Initilize and start the ChatClient with modifications for user name 
+        // Initialize the exit button
+        exitButton = new JButton("Exit");
+        exitButton.addActionListener(e -> System.exit(0));
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.add(textField, BorderLayout.CENTER);
+        bottomPanel.add(exitButton, BorderLayout.EAST);
+        add(bottomPanel, BorderLayout.SOUTH);
     }
   
     private void onMessageReceived(String message) {
