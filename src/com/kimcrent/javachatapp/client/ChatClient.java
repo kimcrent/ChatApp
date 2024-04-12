@@ -2,11 +2,13 @@ import java.io.*;
 import java.net.*;
 
 
+
 public class ChatClient {
     private Socket socket = null;
     private BufferedReader inputConsole = null;
     private PrintWriter out = null;
     private BufferedReader in = null;
+    
 
     public ChatClient(String address, int port) {
         try {
